@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
-#include "Consts.h"
+//#include "Consts.h"
 
 class Status {
 public:
