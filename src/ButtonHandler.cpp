@@ -1,10 +1,8 @@
-// ButtonHandler.cpp
 #include "ButtonHandler.h"
-#include "Controller.h"
 #include <Arduino.h>
 
 static const int PIN_MAP[ButtonHandler::NUM_BUTTONS] = {
-    19, 18, 17, 16, 15, 7, 8, 9, 10, 11
+    14, 15, 16, 17, 0, 1, 2, 3, 4, 5, 6, 7, 8
 };
 
 ButtonHandler::ButtonHandler() {
@@ -14,8 +12,7 @@ ButtonHandler::ButtonHandler() {
     }
 }
 
-void ButtonHandler::begin(Controller* owner) {
-    this->owner = owner;
+void ButtonHandler::begin() {
     for (int i = 0; i < NUM_BUTTONS; ++i) {
         pinMode(buttons[i].pin, INPUT_PULLUP);
         buttons[i].debouncer.attach(buttons[i].pin);
@@ -50,29 +47,32 @@ void ButtonHandler::update() {
 }
 
 void ButtonHandler::handlePress(ButtonID id) {
-    if (owner) owner->handleButtonPress(id);
+    if (onPress) onPress(id);
 }
 
 void ButtonHandler::handleHold(ButtonID id) {
-    if (owner) owner->handleButtonHold(id);
+    if (onHold) onHold(id);
 }
 
 void ButtonHandler::handleRelease(ButtonID id) {
-    if (owner) owner->handleButtonRelease(id);
+    if (onRelease) onRelease(id);
 }
 
 const char* ButtonHandler::getName(ButtonID id) {
     switch (id) {
-        case ButtonID::Play:   return "Play";
-        case ButtonID::Stop:   return "Stop";
-        case ButtonID::Shift:  return "Shift";
-        case ButtonID::Up:     return "Up";
-        case ButtonID::Down:   return "Down";
-        case ButtonID::Left:   return "Left";
-        case ButtonID::Right:  return "Right";
-        case ButtonID::Select: return "Select";
-        case ButtonID::Cancel: return "Cancel";
-        case ButtonID::Menu:   return "Menu";
+        case ButtonID::xAxis:  return "xAxis";
+        case ButtonID::yAxis:  return "yAxis";
+        case ButtonID::zAxis:  return "zAxis";
+        case ButtonID::Home:   return "Home";
+        case ButtonID::Jog_01: return "Jog_01";
+        case ButtonID::Jog_10: return "Jog_10";
+        case ButtonID::Jog_1:  return "Jog_1";
+        case ButtonID::Spare_3: return "Spare_3";
+        case ButtonID::Spare_4: return "Spare_4";
+        case ButtonID::Spare_5:   return "Spare_5";
+        case ButtonID::Spare_6:   return "Spare_6";
+        case ButtonID::Spare_7:   return "Spare_7";
+   
         default:               return "Unknown";
     }
 }
