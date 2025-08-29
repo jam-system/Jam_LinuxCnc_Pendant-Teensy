@@ -8,7 +8,7 @@ void EncoderHandler::begin() {
 }
 
 void EncoderHandler::update() {
-    encoder.setRateLimit(20);
+    encoder.setRateLimit(50);
     encoder.update();  // required
     int32_t currentPosition = encoder.position();
     lastIncrement = currentPosition - lastPosition;
